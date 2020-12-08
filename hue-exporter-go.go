@@ -1,12 +1,27 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
 )
+
+type SensorWrapper struct {
+	Id     int `json: "114`
+	Sensor Sensor
+}
+
+type Sensor struct {
+	Name string
+	Type string
+}
+
+type HueHubResponse struct {
+	SensorList []SensorWrapper `json:"sensorList"`
+}
 
 func log(logText string) {
 	fmt.Println(time.Now().Format("2006-01-02 15:04:05"), "-", logText)
@@ -19,7 +34,17 @@ func queryHueHub(hostname string, apiKey string) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
+	var v interface{}
+	json.Unmarshal(body, &v)
+	data := v.(map[string]interface{})
+	for k, v := range data {
+		switch v := v.(type) {
+		case string:
+			fmt.Println(k, v, "(string)")
+		default:
+			fmt.Println(k, v, "(unknown)")
+		}
+	}
 }
 
 func main() {
