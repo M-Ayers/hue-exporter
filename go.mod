@@ -1,3 +1,3 @@
-module github.com/M-Ayers/hue-exporter-go
+module github.com/M-Ayers/hue-exporter
 
 go 1.15
