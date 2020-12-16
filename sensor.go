@@ -1,44 +1,39 @@
 package main
 
-// import (
-// 	"encoding/json"
-// 	"fmt"
-// 	"log"
-// 	"net/http"
-// )
+import "log"
 
-// type Sensor struct {
-// 	Name string
-// }
+type SensorState struct {
+	Key   string
+	Value string
+}
 
-// func PopulateSensors(b bridge.Bridge) Sensor {
-// 	resp, err := http.Get(fmt.Sprintf("http://%s/api/%s/sensors", b.IpAddr, b.ApiKey))
-// 	if resp.Header.Get("Content-Type") != "" {
-// 		value, _ := header.ParseValueAndParams(resp.Header, "Content-Type")
-// 		if value != "application/json" {
-// 			fmt.Printf("Error with Content-Type.  Got %v\n", value)
-// 		}
-// 	}
-// 	dec := json.NewDecoder(resp.Body)
-// 	fmt.Println(dec)
-// 	t, err := dec.Token()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	for dec.More() {
-// 		var s Sensor
-// 		err := dec.Decode(&s)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
+type Sensor struct {
+	Name             string
+	Type             string
+	ModelId          string
+	ManufacturerName string
+	SwVersion        string
+	States           []SensorState
+}
 
-// 		fmt.Printf("%v\n", s.Name)
-// 	}
-// 	// read closing bracket
-// 	t, err = dec.Token()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	fmt.Printf("%T: %v\n", t, t)
-// 	return Sensor{"NameValue"}
-// }
+func ParseSensors(sensors map[string]interface{}) {
+	for key, _ := range sensors {
+		sensor := sensors[key].(map[string]interface{})
+		sensorState := sensor["state"].(map[string]interface{})
+		s := Sensor{
+			Name: sensor["name"].(string),
+			Type: sensor["type"].(string),
+		}
+
+		for key, val := range sensorState {
+			s.States = append(
+				s.States,
+				SensorState{
+					Key:   key,
+					Value: val.(string),
+				})
+		}
+
+		log.Printf("Sensor: %s", s)
+	}
+}

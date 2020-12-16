@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"time"
 )
@@ -18,5 +21,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Endpoint: %s", endpoint)
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var result map[string]interface{}
+	json.Unmarshal([]byte(body), &result)
+	ParseSensors(result["sensors"].(map[string]interface{}))
 }
