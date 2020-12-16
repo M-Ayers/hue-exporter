@@ -16,7 +16,7 @@ func main() {
 	b := New(os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY"))
 	endpoint, err := b.GetApiEndpoint()
 	if err != nil {
-		log.Fatal("%s%s%s\n", getTime(), " - ", err)
+		log.Fatal(err)
 	}
 	log.Printf("Endpoint: %s", endpoint)
 }
