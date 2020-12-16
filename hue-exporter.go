@@ -20,12 +20,3 @@ func main() {
 	}
 	fmt.Printf("%s%s%s\n", getTime(), " - Found ", endpoint)
 }
-
-// func queryHueHub() {
-// 	// var sensors = PopulateSensors(Bridge{os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY")})
-// 	fmt.Println(sensors)
-// }
-
-// func main() {
-// 	queryHueHub()
-// }
