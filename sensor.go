@@ -1,4 +1,4 @@
-package sensor
+package hue_exporter
 
 import (
 	"encoding/json"

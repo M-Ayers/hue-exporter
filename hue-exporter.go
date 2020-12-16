@@ -1,4 +1,4 @@
-package main
+package hue_exporter
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package bridge
+package hue_exporter
 
 type Bridge struct {
 	IpAddr string
