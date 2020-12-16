@@ -1,6 +1,6 @@
 # hue-exporter
 
-[![Build Status](https://travis-ci.com/M-Ayers/hue-exporter.svg?token=NN78ZZK4CAicUFN1kTYD&branch=main)](https://travis-ci.com/M-Ayers/hue-exporter)
+![build status](https://github.com/M-Ayers/hue-exporter/workflows/Go/badge.svg)
 
 ## install
 
