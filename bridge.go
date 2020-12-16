@@ -1,10 +1,31 @@
-package hue_exporter
+package main
+
+import (
+	"fmt"
+	"net/url"
+	"path"
+)
 
 type Bridge struct {
-	IpAddr string
+	Url    string
 	ApiKey string
 }
 
-func GetBridge(ipAddr string, apiKey string) Bridge {
-	return Bridge{IpAddr: ipAddr, ApiKey: apiKey}
+func New(url, apiKey string) *Bridge {
+	return &Bridge{url, apiKey}
+}
+
+func (b *Bridge) GetApiEndpoint(str ...string) (string, error) {
+	b.Url = fmt.Sprintf("%s%s", "http://", b.Url)
+	builtUrl, err := url.Parse(b.Url)
+	if err != nil {
+		return "URL Parsing error", err
+	}
+
+	builtUrl.Path = path.Join(builtUrl.Path, "/api/", b.ApiKey)
+
+	for _, pathPart := range str {
+		builtUrl.Path = path.Join(builtUrl.Path, pathPart)
+	}
+	return builtUrl.String(), nil
 }
