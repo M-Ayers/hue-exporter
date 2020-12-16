@@ -1,5 +1,5 @@
-# hue-exporter-go
+# hue-exporter
 
 ## install
 
-`go install github.com/M-Ayers/hue-exporter-go`
+`go install github.com/M-Ayers/hue-exporter`
