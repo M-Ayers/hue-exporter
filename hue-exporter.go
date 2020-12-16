@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"time"
 )
@@ -11,21 +11,12 @@ func getTime() string {
 }
 
 func main() {
-	fmt.Printf("%s%s\n", getTime(), " - Starting")
-	fmt.Printf("%s%s\n", getTime(), " - Looking for bridge")
+	log.Println("Starting")
+	log.Println("Looking for bridge")
 	b := New(os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY"))
 	endpoint, err := b.GetApiEndpoint()
 	if err != nil {
-		fmt.Printf("%s%s%s\n", getTime(), " - ", err)
+		log.Fatal("%s%s%s\n", getTime(), " - ", err)
 	}
-	fmt.Printf("%s%s%s\n", getTime(), " - Found ", endpoint)
+	log.Printf("Endpoint: %s", endpoint)
 }
-
-// func queryHueHub() {
-// 	// var sensors = PopulateSensors(Bridge{os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY")})
-// 	fmt.Println(sensors)
-// }
-
-// func main() {
-// 	queryHueHub()
-// }
