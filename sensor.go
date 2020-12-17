@@ -1,5 +1,12 @@
 package main
 
+import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
 type SensorState struct {
 	Key   string
 	Value interface{}
@@ -8,15 +15,30 @@ type SensorState struct {
 type Sensor struct {
 	Name             string
 	Type             string
-	ModelId          string
+	ModelID          string
 	ManufacturerName string
 	SwVersion        string
 	States           []SensorState
 }
 
-func ParseSensors(sensors map[string]interface{}) []Sensor {
+func ParseSensors(b *Bridge) []Sensor {
+
+	endpoint, err := b.GetAPIEndpoint("sensors")
+	if err != nil {
+		log.Fatal(err)
+	}
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var sensors map[string]interface{}
+	json.Unmarshal([]byte(body), &sensors)
+
 	var response []Sensor
-	for key, _ := range sensors {
+	for key := range sensors {
 		sensor := sensors[key].(map[string]interface{})
 		sensorState := sensor["state"].(map[string]interface{})
 		s := Sensor{

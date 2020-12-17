@@ -7,25 +7,25 @@ import (
 )
 
 type Bridge struct {
-	Url    string
-	ApiKey string
+	URL    string
+	APIKey string
 }
 
-func New(url, apiKey string) *Bridge {
+func NewBridge(url, apiKey string) *Bridge {
 	return &Bridge{url, apiKey}
 }
 
-func (b *Bridge) GetApiEndpoint(str ...string) (string, error) {
-	b.Url = fmt.Sprintf("%s%s", "http://", b.Url)
-	builtUrl, err := url.Parse(b.Url)
+func (b *Bridge) GetAPIEndpoint(str ...string) (string, error) {
+	b.URL = fmt.Sprintf("%s%s", "http://", b.URL)
+	builtURL, err := url.Parse(b.URL)
 	if err != nil {
 		return "URL Parsing error", err
 	}
 
-	builtUrl.Path = path.Join(builtUrl.Path, "/api/", b.ApiKey)
+	builtURL.Path = path.Join(builtURL.Path, "/api/", b.APIKey)
 
 	for _, pathPart := range str {
-		builtUrl.Path = path.Join(builtUrl.Path, pathPart)
+		builtURL.Path = path.Join(builtURL.Path, pathPart)
 	}
-	return builtUrl.String(), nil
+	return builtURL.String(), nil
 }
