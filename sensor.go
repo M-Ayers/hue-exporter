@@ -21,12 +21,16 @@ type Sensor struct {
 	States           []SensorState
 }
 
-func ParseSensors(b *Bridge) []Sensor {
-
+func getSensorsURL(b *Bridge) string {
 	endpoint, err := b.GetAPIEndpoint("sensors")
 	if err != nil {
 		log.Fatal(err)
 	}
+	return endpoint
+}
+
+func ParseSensors(b *Bridge) []Sensor {
+	endpoint := getSensorsURL(b)
 	resp, err := http.Get(endpoint)
 	if err != nil {
 		log.Fatal(err)
