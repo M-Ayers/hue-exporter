@@ -30,5 +30,6 @@ func main() {
 
 	var result map[string]interface{}
 	json.Unmarshal([]byte(body), &result)
-	ParseSensors(result["sensors"].(map[string]interface{}))
+	sensors := ParseSensors(result["sensors"].(map[string]interface{}))
+	log.Println(sensors)
 }

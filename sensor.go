@@ -1,10 +1,8 @@
 package main
 
-import "log"
-
 type SensorState struct {
 	Key   string
-	Value string
+	Value interface{}
 }
 
 type Sensor struct {
@@ -16,7 +14,8 @@ type Sensor struct {
 	States           []SensorState
 }
 
-func ParseSensors(sensors map[string]interface{}) {
+func ParseSensors(sensors map[string]interface{}) []Sensor {
+	var response []Sensor
 	for key, _ := range sensors {
 		sensor := sensors[key].(map[string]interface{})
 		sensorState := sensor["state"].(map[string]interface{})
@@ -30,10 +29,11 @@ func ParseSensors(sensors map[string]interface{}) {
 				s.States,
 				SensorState{
 					Key:   key,
-					Value: val.(string),
+					Value: val,
 				})
 		}
 
-		log.Printf("Sensor: %s", s)
+		response = append(response, s)
 	}
+	return response
 }
