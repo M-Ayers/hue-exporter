@@ -11,3 +11,9 @@ func TestGetSensorsURL(t *testing.T) {
 	endpoint := getSensorsURL(b)
 	assert.Equal(t, endpoint, "http://10.0.1.10/api/abc123/sensors")
 }
+
+func TestGetSensors(t *testing.T) {
+	b := NewBridge("10.0.1.10", "abc123")
+	result := getSensors("")
+	assert.NotNil(t, result)
+}
