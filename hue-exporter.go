@@ -13,10 +13,8 @@ func getTime() string {
 func main() {
 	log.Println("Starting")
 	log.Println("Looking for bridge")
-	b := New(os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY"))
-	endpoint, err := b.GetApiEndpoint()
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("Endpoint: %s", endpoint)
+	b := NewBridge(os.Getenv("HUE_IP_ADDR"), os.Getenv("HUE_API_KEY"))
+
+	sensors := ParseSensors(b)
+	log.Println(sensors)
 }
