@@ -49,8 +49,8 @@ func getSensors(b *Bridge) map[string]interface{} {
 	return sensors
 }
 
-// ParseSensors is the entryway into gathering sensor data from a hue bridge and returning sensor data
-func ParseSensors(b *Bridge) []Sensor {
+// GetSensors is the entryway into gathering sensor data from a hue bridge and returning sensor data
+func GetSensors(b *Bridge) []Sensor {
 	sensors := getSensors(b)
 	var response []Sensor
 	for key := range sensors {
